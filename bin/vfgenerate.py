@@ -10,6 +10,7 @@ from openff.qcsubmit.utils import _CachedPortalClient, portal_client_manager
 from openff.toolkit import ForceField
 from vflib2.config import Config
 from vflib2.datasets import select_parameters
+from vflib2.forcebalance import generate
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -73,6 +74,26 @@ def main():
 
     with portal_client_manager(lambda _: client):
         curate_data(ff, opt, td, conf.ring_torsions)
+
+    # TODO skipping this for now
+    if conf.do_msm:
+        raise NotImplementedError("TODO: handle MSM request")
+
+    # now prepare ForceBalance inputs
+    generate(
+        tag="fb-fit",
+        optimization_dataset=opt,
+        torsion_dataset=td,
+        forcefield=ff,
+        valence_to_optimize=OPT_SMIRKS,
+        torsions_to_optimize=TD_SMIRKS,
+        output_directory="output",
+        smarts_to_exclude=conf.smarts_to_exclude,
+        smiles_to_exclude=conf.smiles_to_exclude,
+        verbose=True,
+        max_iterations=50,
+        port=55387,
+    )
 
 
 if __name__ == "__main__":
