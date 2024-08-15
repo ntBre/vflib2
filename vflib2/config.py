@@ -10,6 +10,8 @@ class Config:
     td_datasets: list[str]
     ring_torsions: str
     do_msm: bool
+    smarts_to_exclude: str
+    smiles_to_exclude: str
 
     @classmethod
     def from_yaml(cls, filename):
