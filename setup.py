@@ -1,3 +1,3 @@
 from setuptools import setup
 
-setup()
+setup(scripts=["bin/vfgenerate.py"])
