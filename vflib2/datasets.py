@@ -1,5 +1,4 @@
 import functools
-import random
 import typing
 from collections import Counter, defaultdict
 
@@ -122,74 +121,6 @@ def get_parameter_distribution(
             parameter_records[parameter_id].append((n_heavy_atoms, record_id))
 
     return coverage, dict(parameter_records)
-
-
-def cap_torsions_per_parameter(
-    force_field: ForceField,
-    dataset: TorsionDriveResultCollection,
-    cap_size: int = 5,
-    explicit_ring_torsions: typing.Optional[str] = None,
-    method: typing.Literal[
-        "pick_random", "pick_heavy", "pick_light"
-    ] = "pick_random",
-    verbose: bool = True,
-    n_processes: int = 4,
-):
-    coverage, parameter_records = get_parameter_distribution(
-        dataset=dataset,
-        parameter_types=["ProperTorsions"],
-        force_field=force_field,
-        explicit_ring_torsions=explicit_ring_torsions,
-        n_processes=n_processes,
-    )
-    records_to_keep = {}
-    for parameter_id in coverage:
-        if coverage[parameter_id] <= cap_size:
-            n_atom_records = parameter_records[parameter_id]
-        else:
-            if method == "pick_heavy":
-                n_atom_records = sorted(
-                    parameter_records[parameter_id],
-                    key=lambda x: x[0],
-                    reverse=True,
-                )[:cap_size]
-            elif method == "pick_light":
-                n_atom_records = sorted(
-                    parameter_records[parameter_id],
-                    key=lambda x: x[0],
-                    reverse=False,
-                )[:cap_size]
-            elif method == "pick_random":
-                n_atom_records = random.sample(
-                    parameter_records[parameter_id], cap_size
-                )
-
-        _, records = zip(*n_atom_records)
-        records_to_keep[parameter_id] = records
-
-    if verbose:
-        print("Final coverage")
-        for parameter_id, records in records_to_keep.items():
-            print(
-                f"{parameter_id:>6s}: {len(records):>4d} "
-                f"/ {coverage[parameter_id]:>4d} records"
-            )
-
-    ids_to_keep = [
-        record_id
-        for record_ids in records_to_keep.values()
-        for record_id in record_ids
-    ]
-    print(f"Total records: {dataset.n_results}")
-    print(f"Total records to keep: {len(ids_to_keep)}")
-
-    key = list(dataset.entries.keys())[0]
-    dataset.entries[key] = [
-        record
-        for record in dataset.entries[key]
-        if record.record_id in ids_to_keep
-    ]
-    return dataset
 
 
 def select_parameters(
