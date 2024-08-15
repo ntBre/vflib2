@@ -84,7 +84,7 @@ def main():
         tag="fb-fit",
         optimization_dataset=opt,
         torsion_dataset=td,
-        forcefield=ff,
+        forcefield=conf.initial_ff,
         valence_to_optimize=OPT_SMIRKS,
         torsions_to_optimize=TD_SMIRKS,
         output_directory="output",
