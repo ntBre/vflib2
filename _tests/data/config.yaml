@@ -1,0 +1,11 @@
+initial_ff: openff-2.1.0.offxml
+
+opt_datasets:
+    - /home/brent/omsf/projects/valence-fitting/02_curate-data/datasets/combined-opt.json
+
+td_datasets:
+    - /home/brent/omsf/projects/valence-fitting/02_curate-data/datasets/combined-td.json
+
+ring_torsions: /home/brent/omsf/projects/valence-fitting/02_curate-data/explicit_ring_torsions.dat
+
+do_msm: false
