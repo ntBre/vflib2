@@ -1,6 +1,7 @@
 """Functions for generating ForceBalance input"""
 
 import json
+import logging
 import os
 import typing
 from pathlib import Path
@@ -31,6 +32,9 @@ from openff.qcsubmit.results import (
 )
 from openff.qcsubmit.results.filters import SMARTSFilter, SMILESFilter
 from openff.toolkit import ForceField
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 def load_training_data(
@@ -164,7 +168,12 @@ def generate(
         )
 
     ff = ForceField(forcefield, allow_cosmetic_attributes=True)
-    ff.deregister_parameter_handler("Constraints")
+    try:
+        ff.deregister_parameter_handler("Constraints")
+    except KeyError:
+        logger.warn(
+            "failed to deregister constraint handler, already unconstrained?"
+        )
 
     torsion_handler = ff.get_parameter_handler("ProperTorsions")
     for smirks in torsion_smirks["ProperTorsions"]:
