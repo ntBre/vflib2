@@ -225,7 +225,12 @@ def generate(
         optimization_schema.initial_force_field,
         allow_cosmetic_attributes=True,
     )
-    ff.deregister_parameter_handler("Constraints")
+    try:
+        ff.deregister_parameter_handler("Constraints")
+    except KeyError:
+        logger.warn(
+            "failed to deregister constraint handler, already unconstrained?"
+        )
     # Generate the ForceBalance inputs
     ForceBalanceInputFactory.generate(
         os.path.join(optimization_schema.id),
