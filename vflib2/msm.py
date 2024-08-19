@@ -125,6 +125,9 @@ def main(
     working_directory: typing.Optional[str] = None,
     verbose: bool = False,
 ):
+    optimization_dataset = OptimizationResultCollection.parse_file(
+        optimization_dataset
+    )
     _main(
         initial_force_field,
         output_force_field,
@@ -137,12 +140,10 @@ def main(
 def _main(
     initial_force_field: str,
     output_force_field: str,
-    optimization_dataset: str,
+    dataset: OptimizationResultCollection,
     working_directory: typing.Optional[str] = None,
     verbose: bool = False,
 ):
-    dataset = OptimizationResultCollection.parse_file(optimization_dataset)
-
     # filter for lowest energy results
     print("filtering")
     filtered = dataset.filter(LowestEnergyFilter())
