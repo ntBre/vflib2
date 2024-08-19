@@ -83,21 +83,25 @@ def main():
         with portal_client_manager(lambda _: client):
             msm_guess(ff, ffname, opt, ".", True)
 
-    # now prepare ForceBalance inputs
-    generate(
-        tag="fb-fit",
-        optimization_dataset=opt,
-        torsion_dataset=td,
-        forcefield=ffname,
-        valence_to_optimize=OPT_SMIRKS,
-        torsions_to_optimize=TD_SMIRKS,
-        output_directory="output",
-        smarts_to_exclude=conf.smarts_to_exclude,
-        smiles_to_exclude=conf.smiles_to_exclude,
-        verbose=True,
-        max_iterations=50,
-        port=55387,
-    )
+    # now prepare ForceBalance inputs. I can't quite follow all of the
+    # inheritance madness in the bespokefit code, but I suspect that this also
+    # ends up calling to_records somewhere down the line. if not, it shouldn't
+    # hurt to include this client anyway
+    with portal_client_manager(lambda _: client):
+        generate(
+            tag="fb-fit",
+            optimization_dataset=opt,
+            torsion_dataset=td,
+            forcefield=ffname,
+            valence_to_optimize=OPT_SMIRKS,
+            torsions_to_optimize=TD_SMIRKS,
+            output_directory="output",
+            smarts_to_exclude=conf.smarts_to_exclude,
+            smiles_to_exclude=conf.smiles_to_exclude,
+            verbose=True,
+            max_iterations=50,
+            port=55387,
+        )
 
 
 if __name__ == "__main__":
