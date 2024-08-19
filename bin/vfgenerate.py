@@ -64,7 +64,8 @@ def main():
 
     logger.info(f"loaded {td.n_results} td records")
 
-    ff = ForceField(conf.initial_ff)
+    ffname = conf.initial_ff
+    ff = ForceField(ffname)
 
     # at least for now, I'm not doing any processing on the datasets, so I can
     # move straight into curating them
@@ -84,7 +85,7 @@ def main():
         tag="fb-fit",
         optimization_dataset=opt,
         torsion_dataset=td,
-        forcefield=conf.initial_ff,
+        forcefield=ffname,
         valence_to_optimize=OPT_SMIRKS,
         torsions_to_optimize=TD_SMIRKS,
         output_directory="output",
