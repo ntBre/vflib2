@@ -134,7 +134,7 @@ def main(
 
 
 def _main(
-    initial_force_field: str,
+    ff: ForceField,
     output_force_field: str,
     dataset: OptimizationResultCollection,
     working_directory: str | None,
@@ -160,8 +160,6 @@ def _main(
     if verbose:
         print(f"Found {hessian_set.n_results} hessian calculations")
         print(f"Found {hessian_set.n_molecules} hessian molecules")
-
-    ff = ForceField(initial_force_field, allow_cosmetic_attributes=True)
 
     records_and_molecules = list(hessian_set.to_records())
     if verbose:
