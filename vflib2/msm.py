@@ -2,7 +2,6 @@ import faulthandler
 import json
 import logging
 import os
-import typing
 from collections import defaultdict
 
 import click
@@ -13,13 +12,10 @@ from openff.qcsubmit.results import (
     OptimizationResultCollection,
 )
 from openff.qcsubmit.results.filters import LowestEnergyFilter
-from openff.toolkit import ForceField
+from openff.toolkit import ForceField, Molecule
 from openff.units import unit
+from qcportal.models import ResultRecord
 from qube import Ligand, ModSeminario, ModSemMaths
-
-if typing.TYPE_CHECKING:
-    from openff.toolkit import Molecule
-    from qcportal.models import ResultRecord
 
 logging.getLogger("openff").setLevel(logging.ERROR)
 
@@ -44,10 +40,10 @@ ModSemMaths.force_constant_bond = force_constant_bond
 
 
 def calculate_parameters(
-    qc_record: "ResultRecord",
-    molecule: "Molecule",
-    forcefield: "ForceField",
-) -> typing.Dict[str, typing.Dict[str, typing.List[unit.Quantity]]]:
+    qc_record: ResultRecord,
+    molecule: Molecule,
+    forcefield: ForceField,
+) -> dict[str, dict[str, list[unit.Quantity]]]:
     """
     Calculate the modified seminario parameters for the given input molecule
     and store them by OFF SMIRKS.
@@ -122,7 +118,7 @@ def main(
     initial_force_field: str,
     output_force_field: str,
     optimization_dataset: str,
-    working_directory: typing.Optional[str] = None,
+    working_directory: str | None,
     verbose: bool = False,
 ):
     optimization_dataset = OptimizationResultCollection.parse_file(
@@ -141,7 +137,7 @@ def _main(
     initial_force_field: str,
     output_force_field: str,
     dataset: OptimizationResultCollection,
-    working_directory: typing.Optional[str] = None,
+    working_directory: str | None,
     verbose: bool = False,
 ):
     # filter for lowest energy results
