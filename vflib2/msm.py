@@ -141,9 +141,17 @@ def _main(
     verbose: bool = False,
 ):
     """Update the bond and angle parameters in ``ff`` using the modified
-    Seminario method (MSM) and the Hessians in ``dataset``. Note that the
-    parameters are modified in place, but the resulting ``ForceField`` is also
-    written to the file specified by ``output_force_field``.
+    Seminario method (MSM) and the Hessians in ``dataset``.
+
+    Note that the parameters are modified in place, but the resulting
+    ``ForceField`` is also written to the file specified by
+    ``output_force_field``.
+
+    Note also that this function calls both ``dataset.filter`` and
+    ``dataset.to_basic_result_collection``, which both call
+    ``OptimizationResultCollection.to_records`` internally, so it is a good
+    idea to use a ``_CachedPortalClient`` with a ``portal_client_manager`` to
+    prevent multiple requests to QCArchive.
     """
     # filter for lowest energy results
     print("filtering")

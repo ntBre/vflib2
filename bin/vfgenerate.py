@@ -11,6 +11,7 @@ from openff.toolkit import ForceField
 from vflib2.config import Config
 from vflib2.datasets import select_parameters
 from vflib2.forcebalance import generate
+from vflib2.msm import _main as msm_guess
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -76,9 +77,11 @@ def main():
     with portal_client_manager(lambda _: client):
         curate_data(ff, opt, td, conf.ring_torsions)
 
-    # TODO skipping this for now
+    # NOTE this modifies ff in place and also writes the result to msm.offxml
     if conf.do_msm:
-        raise NotImplementedError("TODO: handle MSM request")
+        ffname = "msm.offxml"
+        with portal_client_manager(lambda _: client):
+            msm_guess(ff, ffname, opt, ".", True)
 
     # now prepare ForceBalance inputs
     generate(
