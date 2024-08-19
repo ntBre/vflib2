@@ -140,6 +140,11 @@ def _main(
     working_directory: str | None,
     verbose: bool = False,
 ):
+    """Update the bond and angle parameters in ``ff`` using the modified
+    Seminario method (MSM) and the Hessians in ``dataset``. Note that the
+    parameters are modified in place, but the resulting ``ForceField`` is also
+    written to the file specified by ``output_force_field``.
+    """
     # filter for lowest energy results
     print("filtering")
     filtered = dataset.filter(LowestEnergyFilter())
