@@ -19,11 +19,11 @@ python vfgenerate.py config.yaml
 ```
 
 This will follow the general steps from our `valence-fitting`
-repositories[[1]][1][[2]][2], and from the [Sage 2.1.0][sage-2.1] and [Sage
+repositories[[1]][[2]], and from the [Sage 2.1.0][sage-2.1] and [Sage
 2.2.0][sage-2.2] repositories:
 
 1. Loading and curating an `OptimizationResultCollection` and a
-   `TorsionDriveResultCollection` in the [qcsubmit][qcsubmit] JSON format.
+   `TorsionDriveResultCollection` in the [qcsubmit] JSON format.
 2. Generating an initial modified Seminario method (MSM) guess for the bond and
    angle parameters.
 3. Generating [ForceBalance][fb] input ready to run on a compute cluster.
@@ -35,8 +35,8 @@ The input should be in YAML format and contains the following options:
 | Option              | Type        | Description                                                         |
 |---------------------|-------------|---------------------------------------------------------------------|
 | `initial_ff`        | `str`       | Path to an OFFXML file (or built-in force field)                    |
-| `opt_datasets`      | `list[str]` | Paths to [qcsubmit][qcsubmit] optimization datasets in JSON format  |
-| `td_datasets`       | `list[str]` | Paths to [qcsubmit][qcsubmit] torsion drive datasets in JSON format |
+| `opt_datasets`      | `list[str]` | Paths to [qcsubmit] optimization datasets in JSON format  |
+| `td_datasets`       | `list[str]` | Paths to [qcsubmit] torsion drive datasets in JSON format |
 | `ring_torsions`     | `str`       | Path to a file containing explicit ring torsions                    |
 | `do_msm`            | `bool`      | Whether or not to replace bonds and angles with an MSM guess        |
 | `smarts_to_exclude` | `str`       | SMARTS patterns to exclude from [ForceBalance][fb] training         |
