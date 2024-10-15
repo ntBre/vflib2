@@ -143,8 +143,11 @@ def select_parameters(
 
     selected_parameters = defaultdict(list)
     for parameter_type in parameter_types:
+        # make sure all the keys are present even if no data is found. this is
+        # unlikely to occur in a real run but happens with current test data
+        if parameter_type not in selected_parameters:
+            selected_parameters[parameter_type] = list()
         handler = force_field.get_parameter_handler(parameter_type)
-
         for parameter_id, count in coverage.items():
             if count < min_coverage:
                 continue
