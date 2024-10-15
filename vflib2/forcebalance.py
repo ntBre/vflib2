@@ -34,7 +34,7 @@ from openff.qcsubmit.results.filters import SMARTSFilter, SMILESFilter
 from openff.toolkit import ForceField
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+logging.basicConfig(level=logging.INFO)
 
 
 def load_training_data(
@@ -57,7 +57,7 @@ def load_training_data(
     torsion_training_set = torsion_dataset
     if verbose:
         n = torsion_training_set.n_results
-        print(f"Loaded torsion training set with {n} entries.")
+        logger.info(f"Loaded torsion training set with {n} entries.")
 
     torsion_training_set = torsion_training_set.filter(
         SMARTSFilter(smarts_to_exclude=exclude_smarts),
@@ -66,19 +66,19 @@ def load_training_data(
 
     if verbose:
         n = torsion_training_set.n_results
-        print(f"Filtered torsion training set to {n} entries.")
+        logger.info(f"Filtered torsion training set to {n} entries.")
 
     optimization_training_set = optimization_dataset
     if verbose:
         n = optimization_training_set.n_results
-        print(f"Loaded optimization training set with {n} entries.")
+        logger.info(f"Loaded optimization training set with {n} entries.")
     optimization_training_set = optimization_training_set.filter(
         SMARTSFilter(smarts_to_exclude=exclude_smarts),
         SMILESFilter(smiles_to_exclude=exclude_smiles),
     )
     if verbose:
         n = optimization_training_set.n_results
-        print(f"Filtered optimization training set to {n} entries.")
+        logger.info(f"Filtered optimization training set to {n} entries.")
 
     return torsion_training_set, optimization_training_set
 
