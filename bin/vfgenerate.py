@@ -54,7 +54,7 @@ def curate_data(ff, opt, td, ring_torsions):
 def main():
     args = parser.parse_args()
 
-    logger.info(f"loading config from {args.confing}")
+    logger.info(f"loading config from {args.config}")
     conf = Config.from_yaml(args.config)
 
     assert len(conf.opt_datasets) == 1, "Only 1 opt dataset can be used"
