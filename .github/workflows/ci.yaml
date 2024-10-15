@@ -48,7 +48,7 @@ jobs:
         echo "${SECRET_OE_LICENSE}" > ${OE_LICENSE}
         python -c "from openeye import oechem; assert oechem.OEChemIsLicensed()"
       env:
-        SECRET_OE_LICENSE: ${{ secrets.OE_LICENSE }}
+        SECRET_OE_LICENSE: ${{ secrets.SECRET_OE_LICENSE }}
 
     - name: Run tests
       run: |
