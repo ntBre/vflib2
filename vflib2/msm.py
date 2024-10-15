@@ -14,7 +14,7 @@ from openff.qcsubmit.results import (
 from openff.qcsubmit.results.filters import LowestEnergyFilter
 from openff.toolkit import ForceField, Molecule
 from openff.units import unit
-from qcportal.models import ResultRecord
+from qcportal.singlepoint import SinglepointRecord
 from qube import Ligand, ModSeminario, ModSemMaths
 
 logging.getLogger("openff").setLevel(logging.ERROR)
@@ -40,7 +40,7 @@ ModSemMaths.force_constant_bond = force_constant_bond
 
 
 def calculate_parameters(
-    qc_record: ResultRecord,
+    qc_record: SinglepointRecord,
     molecule: Molecule,
     forcefield: ForceField,
 ) -> dict[str, dict[str, list[unit.Quantity]]]:
