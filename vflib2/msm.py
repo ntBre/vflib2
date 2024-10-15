@@ -15,7 +15,8 @@ from openff.qcsubmit.results.filters import LowestEnergyFilter
 from openff.toolkit import ForceField, Molecule
 from openff.units import unit
 from qcportal.singlepoint import SinglepointRecord
-from qube import Ligand, ModSeminario, ModSemMaths
+from qubekit.molecules import Ligand
+from qubekit.bonded.mod_seminario import ModSeminario, ModSemMaths
 
 logging.getLogger("openff").setLevel(logging.ERROR)
 
