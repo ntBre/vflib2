@@ -193,9 +193,16 @@ def generate(
                 ImproperTorsionSMIRKS(smirks=smirks, attributes=attributes)
             )
 
+    # use the absolute path for an existing offxml file or assume builtin and
+    # use the exact input
+    if os.path.exists(forcefield):
+        ff_path = os.path.abspath(forcefield)
+    else:
+        ff_path = forcefield
+
     optimization_schema = OptimizationSchema(
         id=tag,
-        initial_force_field=os.path.abspath(forcefield),
+        initial_force_field=ff_path,
         stages=[
             OptimizationStageSchema(
                 optimizer=optimizer,
