@@ -14,7 +14,7 @@ from vflib2.forcebalance import generate
 from vflib2.msm import _main as msm_guess
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+logging.basicConfig(level=logging.INFO)
 
 parser = ArgumentParser()
 parser.add_argument("config")
@@ -53,14 +53,18 @@ def curate_data(ff, opt, td, ring_torsions):
 
 def main():
     args = parser.parse_args()
+
+    logger.info(f"loading config from {args.confing}")
     conf = Config.from_yaml(args.config)
 
     assert len(conf.opt_datasets) == 1, "Only 1 opt dataset can be used"
+    logger.info(f"loading opt data from {conf.opt_datasets[0]}")
     opt = OptimizationResultCollection.parse_file(conf.opt_datasets[0])
 
     logger.info(f"loaded {opt.n_results} opt records")
 
     assert len(conf.td_datasets) == 1, "Only 1 td dataset can be used"
+    logger.info(f"loading td data from {conf.td_datasets[0]}")
     td = TorsionDriveResultCollection.parse_file(conf.td_datasets[0])
 
     logger.info(f"loaded {td.n_results} td records")
